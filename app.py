@@ -1,52 +1,58 @@
 import pandas as pd
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 #Iniciar la app Flask
 app = Flask(__name__)
+CORS(app)
 
-#Importar los datos
-books_data = pd.read_csv("books.csv")
-users_data = pd.read_csv("./static/users.csv")
+@app.route('/nuevo_usuario', methods=['POST'])
+def nuevo_usuario():
+        # Get the data from the POST endpoint
+    data = request.get_json()
+    global user
+    user = data
+    if not data:
+        resp = (jsonify({'error': 'No data provided'}), 400)
+        return resp
+    print("USUARIO ACTUAL \n", user['answer'])
+    resp = (jsonify({"Access-Control-Allow-Origin": "*",'response': data}), 201, {'Access-Control-Allow-Origin': '*'})
+    print(resp)
 
-def recommended_books(user_row, books_data, user_data, method="average"):
-    try:
-        # Asegurarse de que las columnas son listas y no cadenas
-        preferred_genres = user_row["preferred_genres"].split(',') if isinstance(user_row["preferred_genres"], str) else user_row["preferred_genres"]
+    return resp
 
-        # Filtrar libros que coincidan con los géneros preferidos
-        filtered_songs = books_data[
-            (books_data["Genre"].isin(preferred_genres))
-        ].copy()
-
-#Endpoint para obtener los usuarios
-@app.route('/users', methods=['GET'])
-def get_users():
-    #Cargar a los usuarios desde el CSV
-    users_df = pd.read_csv("users.csv")
-    #Convertir en lista de diccionario
-    users = users_df[["user_id"]].to_dict(orient="records")
-    return jsonify(users)
 
 @app.route('/recommend', methods=['GET'])
 def recommend():
-    user_id = request.args.get("user_id")
-    method = request.args.get("method", "average")
+    books_data = pd.read_csv("books.csv")
+    users_data = pd.read_csv("./static/users.csv")
 
-    if not user_id:
-        return jsonify({"error": "user_id is required"}), 400
+    books_data_copy = books_data
+    users_data_copy = users_data
+    user_copy = user
+
+    print("BOOKS COLUMNA")
+    books_raw_1 = books_data_copy.loc[books_data_copy['Genre'] == 
+    user_copy["answer"]["genero_usuario_1"]]
+    books_recommend_1 = books_raw_1.filter(items=['Title'])
+
+    books_raw_2 = books_data_copy.loc[books_data_copy['Genre'] == 
+    user_copy["answer"]["genero_usuario_2"]]
+    books_recommend_2 = books_raw_2.filter(items=['Title'])
+
+    books_recomendados = pd.concat([books_recommend_1, books_recommend_2])
+    print(books_recomendados)
     
-    try:
-        user_row = users_data[users_data["user_id"] == user_id]
-        if user_row.empty:
-            return jsonify({"error": "user not found"}), 404
-        
-        user_row = user_row.iloc[0]
-        recommendations = recommend_books(user_row, books_data, users_data, method=method)
+    print()
 
-        return jsonify(recommendations)
-    except Exception as e:
-        print(f"Error en /recommended: {e}")
-        return jsonify({"error": str(e)}), 500
+
+    print("BOOKS RECOMMEND")
+    resp = (jsonify({"msg": [list(books_recommend_1['Title']), 
+    list(books_recommend_2['Title'])]}))
+    print(resp)
+
+    return resp
+
 
 if __name__ == '__main__':
     app.run(debug=True)

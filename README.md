@@ -11,7 +11,7 @@
 
 # 3. Activa el entorno virtual:
    - En **Windows**:
-     ./venv/Scripts/activate
+     source venv/Scripts/activate
    - En **macOS/Linux**:
      source venv/bin/activate
 

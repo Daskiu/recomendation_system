@@ -1,12 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Books recomendation system</title>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../static/styles.css">
 </head>
+
 <body>
-    
+
+    <h1>Recomendacion de Libros</h1>
+    <h3>Nombre:</h3>
+    <input id="nombre-input" type="text">
+
+    <h3>Genero elegido 1:</h3>
+    <select name="genero-1" id="genero-select-1">
+        <option value="">--Elige tu primer genero--</option>
+        <option value="signal_processing">Procesamiento de señales</option>
+        <option value="data_science">ciencia de datos</option>
+        <option value="mathematics">matematicas</option>
+        <option value="history">historia</option>
+        <option value="science">ciencia</option>
+        <option value="computer_science">ciencia computacional</option>
+        <option value="psychology">psicologia</option>
+        <option value="fiction">ficcion</option>
+        <option value="economics">economia</option>
+        <option value="philosophy">filosofia</option>
+        <option value="nonfiction">no-ficcion</option>
+        <option value="comic">comics</option>
+      </select>
+
+      <h3>Genero elegido 2:</h3>
+      <select name="genero-2" id="genero-select-2">
+        <option value="">--Elige tu segundo genero--</option>
+        <option value="signal_processing">Procesamiento de señales</option>
+        <option value="data_science">ciencia de datos</option>
+        <option value="mathematics">matematicas</option>
+        <option value="history">historia</option>
+        <option value="science">ciencia</option>
+        <option value="computer_science">ciencia computacional</option>
+        <option value="psychology">psicologia</option>
+        <option value="fiction">ficcion</option>
+        <option value="economics">economia</option>
+        <option value="philosophy">filosofia</option>
+        <option value="nonfiction">no-ficcion</option>
+        <option value="comic">comics</option>
+      </select>
+ 
+      <button id="boton-resultados">Iniciar recomendaciones</button>
+
+      <div id="div-resultados" style="display: none;">
+        <h2>Recomendaciones</h2>
+        <h3 >Titulos recomendados</h3>
+        <ul id="titulos-recomendados">
+        </ul>
+
+      </div>
+
+    <script src="../static/script.js" async defer></script>
+
 </body>
-<script src="/static/script.js"></script>
+
 </html>
